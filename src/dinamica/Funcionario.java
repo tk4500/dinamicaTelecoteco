@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 public class Funcionario {
 	private String nome;
 	private DepartamentoEnum cargo;
-	private BigDecimal salario;
+	private static BigDecimal salario;
 	
 	public Funcionario(String nome, DepartamentoEnum cargo, BigDecimal salario) {
 		this.nome = nome;
@@ -28,7 +28,7 @@ public class Funcionario {
 		this.cargo = cargo;
 	}
 
-	public BigDecimal getSalario() {
+	public static BigDecimal getSalario() {
 		return salario;
 	}
 
