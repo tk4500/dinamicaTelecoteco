@@ -11,8 +11,6 @@ public class Julio {
 	public static void main(String[] args) {
 		
 		 List<Funcionario> funcionarios = CargaDados.getListaFuncionarios() ;
-		 System.out.println(getImpactoReajuste(funcionarios));
-		 System.out.println(getImpactoReajus(getImpactoReajuste(funcionarios)));
 	}
 	
 	public static BigDecimal getTotalSalarios(List<Funcionario> funcionarios) {
