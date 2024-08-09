@@ -3,14 +3,16 @@ package dinamica;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Item1 {
 
 	public static void main(String[] args) {
 
-		System.out.println(getMaiorOrcamento(CargaDados.getListaFuncionarios()).orcamento + ""
-				+ getMaiorOrcamento(CargaDados.getListaFuncionarios()).departamento);
+		System.out.println(maioresSalariosString(CargaDados.getListaFuncionarios()));
 
 	}
 
@@ -26,6 +28,17 @@ public class Item1 {
 		}
 		return soma;
 
+	}
+
+	public static Map.Entry<DepartamentoEnum, BigDecimal> maiorOrcamento(List<Funcionario> funcionarios) {
+		Map<DepartamentoEnum, BigDecimal> orcamentos = new HashMap<>();
+
+		for (DepartamentoEnum d : DepartamentoEnum.values()) {
+			List<Funcionario> cargo = getFuncionarioCargo(d, funcionarios);
+			BigDecimal totalSalario = getTotalSalarios(cargo);
+			orcamentos.put(d, totalSalario);
+		}
+		return orcamentos.entrySet().stream().max(Map.Entry.comparingByValue()).orElse(null);
 	}
 
 	public static Orcamento getMaiorOrcamento(List<Funcionario> funcionarios) {
@@ -57,10 +70,19 @@ public class Item1 {
 
 	}
 
+	public static String maioresSalariosString(List<Funcionario> funcionarios) {
+
+		String salarios = funcionarios.stream().map(f -> f.getSalario()).sorted(Comparator.reverseOrder()).limit(10)
+				.map(BigDecimal::toString).collect(Collectors.joining("\n"));
+
+		return salarios;
+
+	}
+
 	public static List<BigDecimal> maioresSalarios(List<Funcionario> funcionarios) {
 
 		List<BigDecimal> lista = funcionarios.stream().map(f -> f.getSalario()).sorted(Comparator.reverseOrder())
-				.toList().subList(0, 10);
+				.limit(10).toList();
 
 		return lista;
 
