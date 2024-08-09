@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 
-
 public class Principal {
 
 	public static void main(String[] args) {
@@ -92,7 +91,8 @@ public class Principal {
 			List<Funcionario> cargo = getFuncionarioCargo(d, funcionarios);
 			maiorDepartamento.put(d, getTotalSalarios(cargo));
 		}
-		return maiorDepartamento.entrySet().stream().sorted((m1, m2) -> m2.getValue().compareTo(m1.getValue())).findFirst().orElseThrow(() -> new RuntimeException("No value present"));
+		return maiorDepartamento.entrySet().stream().sorted((m1, m2) -> m2.getValue().compareTo(m1.getValue()))
+				.findFirst().orElseThrow(() -> new RuntimeException("No value present"));
 
 	}
 
