@@ -14,14 +14,10 @@ import java.util.Objects;
 public class Principal {
 
 	public static void main(String[] args) {
-		new Principal();
-	}
-
-	public Principal() {
 		System.out.println(montaResposta(CargaDados.getListaFuncionarios()));
 	}
 
-	public String montaResposta(List<Funcionario> funcionarios) {
+	public static String montaResposta(List<Funcionario> funcionarios) {
 		StringBuilder msg = new StringBuilder();
 		msg.append("● Quais os 10 maiores salários da empresa? ");
 		msg.append(String.join(", ",
@@ -42,8 +38,8 @@ public class Principal {
 					mediaSalarioCargo(e, funcionarios), modaSalarioCargo(e, funcionarios),
 					medianaSalarioCargo(e, funcionarios)));
 		msg.append("\n\n● Qual departamento possui o maior orçamento?");
-		msg.append(String.format(" %s: R$%s", getMaiorOrcamento(funcionarios).departamento,
-				getMaiorOrcamento(funcionarios).orcamento.toString().replace(".", ",")));
+		msg.append(String.format(" %s: R$%s", getMaiorOrcamento(funcionarios).getKey(),
+				getMaiorOrcamento(funcionarios).getValue().toString().replace(".", ",")));
 		msg.append("\n\n● Qual departamento possui a maior média salarial?");
 		msg.append(String.format(" %s: R$%s", maiorMediaSalarial(funcionarios).getKey().name(),
 				maiorMediaSalarial(funcionarios).getValue().toString().replace(".", ",")));
@@ -89,28 +85,18 @@ public class Principal {
 		return m;
 	}
 
-	public class Orcamento {
-		DepartamentoEnum departamento;
-		BigDecimal orcamento;
-
-		public Orcamento(DepartamentoEnum departamento, BigDecimal orcamento) {
-			this.departamento = departamento;
-			this.orcamento = orcamento;
-		}
-	}
-
-	public Orcamento getMaiorOrcamento(List<Funcionario> funcionarios) {
-		List<Orcamento> maiorDepartamento = new ArrayList<>();
+	public static Entry<DepartamentoEnum, BigDecimal> getMaiorOrcamento(List<Funcionario> funcionarios) {
+		Map<DepartamentoEnum, BigDecimal> maiorDepartamento = new HashMap<DepartamentoEnum, BigDecimal>();
 
 		for (DepartamentoEnum d : DepartamentoEnum.values()) {
 			List<Funcionario> cargo = getFuncionarioCargo(d, funcionarios);
-			maiorDepartamento.add(this.new Orcamento(d, getTotalSalarios(cargo)));
+			maiorDepartamento.put(d, getTotalSalarios(cargo));
 		}
-		maiorDepartamento.sort((m1, m2) -> m2.orcamento.compareTo(m1.orcamento));
-		return maiorDepartamento.getFirst();
+		return maiorDepartamento.entrySet().stream().sorted((m1, m2) -> m2.getValue().compareTo(m1.getValue())).findFirst().orElseThrow(() -> new RuntimeException("No value present"));
+
 	}
 
-	public Entry<DepartamentoEnum, BigDecimal> maiorMediaSalarial(List<Funcionario> funcionarios) {
+	public static Entry<DepartamentoEnum, BigDecimal> maiorMediaSalarial(List<Funcionario> funcionarios) {
 		return getMediaPorCargo(funcionarios).entrySet().stream()
 				.sorted((m1, m2) -> m2.getValue().compareTo(m1.getValue())).findFirst()
 				.orElseThrow(() -> new RuntimeException("No value present"));
