@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class PrincipalTest {
@@ -49,6 +50,49 @@ class PrincipalTest {
 	@Test
 	void test() {
 		System.out.println(principal.montaResposta(funcionarios));
+	}
+	
+	@DisplayName("Deve retornar o total de salario.")
+	@Test
+	void DeveRetornarOTotalDeSalarios() {
+		funcionarios.add(new Funcionario("João Silva", DepartamentoEnum.ADMINISTRACAO, new BigDecimal("9000")));
+        funcionarios.add(new Funcionario("Maria Oliveira", DepartamentoEnum.RH, new BigDecimal("8000")));
+        funcionarios.add(new Funcionario("Pedro Souza", DepartamentoEnum.DESENVOLVIMENTO, new BigDecimal("7000")));
+        
+        BigDecimal retorno = Principal.getTotalSalarios(funcionarios);
+        
+	}
+	
+	@DisplayName("getTotalSalarios Deve Lancar NullPointerException Ao Adicionar Funcionario Nulo")
+	@Test
+	public void deveLancarNullPointerExceptionAoAdicionarFuncionarioNuloEmTotalSalarios() {
+	    
+	    try {
+	    	Principal.getTotalSalarios(funcionarios);
+	    }catch(NullPointerException e) {
+	    	
+	    }
+	}
+	
+	@Test
+	void DeveRetornarOImpactoDosReajustes() {
+		funcionarios.add(new Funcionario("João Silva", DepartamentoEnum.ADMINISTRACAO, new BigDecimal("9000")));
+        funcionarios.add(new Funcionario("Maria Oliveira", DepartamentoEnum.RH, new BigDecimal("8000")));
+        funcionarios.add(new Funcionario("Pedro Souza", DepartamentoEnum.DESENVOLVIMENTO, new BigDecimal("7000")));
+        
+        BigDecimal retorno = Principal.getImpactoReajuste(funcionarios);
+        
+	}
+	
+	@DisplayName("getImpactoReajuste Deve Lancar NullPointerException Ao Adicionar Funcionario Nulo")
+	@Test
+	public void deveLancarNullPointerExceptionAoAdicionarFuncionarioNuloEmImpactoDosReajustes() {
+	    
+	    try {
+	    	Principal.getImpactoReajuste(funcionarios);
+	    }catch(NullPointerException e) {
+	    	
+	    }
 	}
 
 }
