@@ -76,7 +76,7 @@ public class Principal {
 		return getTotalSalarios(funcionarios).divide(BigDecimal.valueOf(10), 2, RoundingMode.HALF_EVEN);
 	}
 
-	static Map<DepartamentoEnum, Double> getPercentualPorCargo(List<Funcionario> funcionarios) {
+	public static Map<DepartamentoEnum, Double> getPercentualPorCargo(List<Funcionario> funcionarios) {
 		Map<DepartamentoEnum, Double> m = new HashMap<>();
 		for (DepartamentoEnum p : DepartamentoEnum.values())
 			m.put(p, (Double.parseDouble("" + getFuncionarioCargo(p, funcionarios).size()) / funcionarios.size()
